@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- 你可以根据需要添加CSS文件 -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .staff-message {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            padding: 10px;
+            border: 1px solid #bee5eb;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Welcome to the Homepage</h1>
+</header>
+
+<main>
+    <h2>Hello, {{ user.username }}!</h2>
+
+   
+        <p>You are a regular user. Explore the features available to you!</p>
+  
+
+    
+   
+</main>
+
+<footer>
+    <p>&copy; {{ current_year }} Your Company Name. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
