@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+Semester Delete
+{% endblock %}
+{%  block body %}
+   
+    <form method="post">
+            {% csrf_token %}
+
+        <p>
+
+            Delete "{{ object }}" ?
+
+        </p>
+
+    <input type="submit" value="Confirm"/>
+    </form>
+    <p>Delete</p>
+{% endblock %}

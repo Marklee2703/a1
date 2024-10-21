@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+    Update Semester
+{% endblock %}
+
+{% block body %}
+    <h1>Update Semester</h1>
+    <form method="post" 
+          action="{% url 'semester-update' object.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+     
+        <button type="submit" class="btn btn-primary">
+            Update
+        </button>
+    </form>
+    
+{% endblock %}

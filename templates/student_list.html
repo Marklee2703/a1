@@ -1,0 +1,42 @@
+{%  extends 'base.html' %}
+
+{%  block title %} Student List {% endblock %}
+{% block body %}
+    
+    {% for object in object_list %}
+        
+{#        <p> {{ object }}</p>#}
+{#        <a href="http://localhost:8000/student/1">1</a>#}
+        
+{#        {{ object.pk }}#}
+        <p>
+        <a href="http://localhost:8000/student/{{ object.pk }}">{{ object }}</a>
+        </p>
+        
+         
+        
+        <p>
+             <a href="{% url 'student-delete' object.pk %}">Delete this student</a>
+        
+        </p>
+    
+      
+        
+        
+    {% endfor %}
+    
+    <p>
+    -------------------------------------------------------------------------
+    </p>
+    
+    <p>
+            <a href="http://localhost:8000/student/create">Create New Student</a>
+        
+        </p>
+        
+      
+    
+    
+{% endblock %}
+
+

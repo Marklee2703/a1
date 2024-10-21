@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}
+Student Detail
+{% endblock %}
+{%  block body %}
+    <p>
+    {{ object.student_id }}
+    {{ object.user }}
+    {{ object.DOB }}
+    </p>
+    
+{#    <a href="http://localhost:8000/student/{{ object.pk }}/delete">Delete</a>#}
+    <a href="{% url 'student-delete' object.pk %}">Delete</a>
+
+{#      <a href="http://localhost:8000/student/{{ object.pk }}/update">Update</a>#}
+    
+    <a href="{% url 'student-update' object.pk %}">Update</a>
+    
+    
+    
+    
+{% endblock %}

@@ -1,0 +1,27 @@
+{%  extends 'base.html' %}
+
+{%  block title %} Semester List {% endblock %}
+{% block body %}
+    
+    {% for object in object_list %}
+        
+{#        <p> {{ object }}</p>#}
+{#        <a href="http://localhost:8000/student/1">1</a>#}
+        
+{#        {{ object.pk }}#}
+        <p>
+        <a href="http://localhost:8000/semester/{{ object.pk }}">{{ object }}</a>
+        </p>
+        
+        
+    {% endfor %}
+    
+           <p>
+            <a href="http://localhost:8000/semester/create">Create New Semester</a>
+        
+        </p>
+    
+    
+{% endblock %}
+
+

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+Semester Detail
+{% endblock %}
+{%  block body %}
+    <p>
+    Semester: {{ object.semester }}
+   Year:  {{ object.year }}
+  
+    </p>
+    
+{#    <a href="http://localhost:8000/semester/{{ object.pk }}/delete">Delete</a>#}
+    
+    <a href="{% url 'semester-delete' object.pk %}">Delete</a>
+    <a href="{% url 'semester-update' object.pk %}">Update</a>
+    
+{#      <a href="http://localhost:8000/semester/{{ object.pk }}/update">Update</a>#}
+    
+{% endblock %}

@@ -1,0 +1,25 @@
+{%  extends 'base.html'%}
+{% block title %}
+    
+    Student Attendance
+{% endblock %}
+
+{% block body %}
+    
+    
+    <p>Your Attendance</p>
+    
+    
+    {% if attendance %}
+        {% for a in attendance %}
+            <p>
+                {{ a.class_attended }} - {{ a.status }}
+            </p>
+        {% endfor %}
+    {% else %}
+        <p>No attendance records found.</p>
+    {% endif %}
+    
+    
+    
+{% endblock %}
