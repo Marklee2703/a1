@@ -10,14 +10,17 @@
         
 {#        {{ object.pk }}#}
         <p>
-        <a href="http://localhost:8000/semester/{{ object.pk }}">{{ object }}</a>
+{#        <a href="http://localhost:8000/semester/{{ object.pk }}">{{ object }}</a>#}
+        <a href="{% url 'semester-detail' object.pk %}">{{ object }}</a>
+
         </p>
         
         
     {% endfor %}
     
            <p>
-            <a href="http://localhost:8000/semester/create">Create New Semester</a>
+          
+            <a href="{% url 'semester-create' %}">Create New Semester</a>
         
         </p>
     

@@ -1,6 +1,6 @@
 from django import forms
 
-from attendance.models import Student, User, Semester, Course
+from attendance.models import Student, User, Semester, Course, Class, Lecture
 
 
 class UserForm(forms.ModelForm):
@@ -20,6 +20,17 @@ class StudentForm(forms.ModelForm):
             'DOB': forms.TextInput(attrs={'id': 'DOB', 'class': 'form-control', 'placeholder': 'Date of Birth'}), }
 
 
+class LectureForm(forms.ModelForm):
+    class Meta:
+        model = Lecture
+        fields = ('staff_id', 'DOB')
+
+        widgets = {
+            'staff_id': forms.TextInput(
+                attrs={'id': 'staff_id', 'class': 'form-control', 'placeholder': 'staff_id'}),
+            'DOB': forms.TextInput(attrs={'id': 'DOB', 'class': 'form-control', 'placeholder': 'Date of Birth'}), }
+
+
 class SemesterForm(forms.ModelForm):
     class Meta:
         model = Semester
@@ -29,4 +40,11 @@ class SemesterForm(forms.ModelForm):
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
+        fields = '__all__'
+
+
+class ClassForm(forms.ModelForm):
+    class Meta:
+        model = Class
+        # exclude = ['class_id']
         fields = '__all__'

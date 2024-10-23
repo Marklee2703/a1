@@ -1,0 +1,29 @@
+{%  extends 'base.html'%}
+{% block title %}
+    
+    Lecture Class List
+{% endblock %}
+
+{% block body %}
+
+    {% if user.is_authenticated %}
+    
+    <p>Your Class List</p>
+    
+    
+    {% if class %}
+        {% for a in class %}
+            <p>
+               Course: {{ a.course }} -- Class number: {{ a.number}} 
+            </p>
+            
+        {% endfor %}
+    {% else %}
+        <p>No Class records found.</p>
+    {% endif %}
+    
+    {% endif %}
+    
+    
+    
+{% endblock %}

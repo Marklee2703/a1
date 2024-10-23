@@ -1,3 +1,6 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.models import User, Group
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
@@ -5,7 +8,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 
-from .forms import StudentForm, UserForm, SemesterForm, CourseForm
+from .forms import StudentForm, UserForm, SemesterForm, CourseForm, ClassForm, LectureForm
 from .models import Semester, Course, Class, Lecture, Student, Attendance
 
 
@@ -82,72 +85,129 @@ class CourseCreateView(CreateView):
     model = Course
     form_class = CourseForm
     template_name = 'course_create.html'
-    success_url = reverse_lazy('course_list')
+    success_url = reverse_lazy('course-list')
+
+
 #
 #
-# class CourseUpdateView(UpdateView):
-#     model = Course
-#     form_class = CourseForm
-#     template_name = 'admin/course_form.html'
-#     success_url = reverse_lazy('course_list')
+class CourseUpdateView(UpdateView):
+    model = Course
+    form_class = CourseForm
+    template_name = 'course_update.html'
+    success_url = reverse_lazy('course-list')
+
+
 #
 #
-# class CourseDeleteView(DeleteView):
-#     model = Course
-#     template_name = 'admin/course_confirm_delete.html'
-#     success_url = reverse_lazy('course_list')
+class CourseDeleteView(DeleteView):
+    model = Course
+    template_name = 'course_delete.html'
+    success_url = reverse_lazy('course-list')
+
+
+class CourseDetailView(DetailView):
+    model = Course
+    template_name = 'course_detail.html'
+
+
 #
 #
 # # 4. 管理员管理班级的视图
-# class ClassListView(ListView):
-#     model = Class
-#     template_name = 'admin/class_list.html'
+class ClassListView(ListView):
+    model = Class
+    template_name = 'class_list.html'
+
+
 #
 #
-# class ClassCreateView(CreateView):
-#     model = Class
-#     form_class = ClassForm
-#     template_name = 'admin/class_form.html'
-#     success_url = reverse_lazy('class_list')
+class ClassCreateView(CreateView):
+    model = Class
+    form_class = ClassForm
+    template_name = 'class_create.html'
+    success_url = reverse_lazy('class-list')
+
+
+
+class ClassDetailView(DetailView):
+    model = Class
+    template_name = 'class_detail.html'
 #
 #
-# class ClassUpdateView(UpdateView):
-#     model = Class
-#     form_class = ClassForm
-#     template_name = 'admin/class_form.html'
-#     success_url = reverse_lazy('class_list')
+class ClassUpdateView(UpdateView):
+    model = Class
+    form_class = ClassForm
+    template_name = 'class_update.html'
+    success_url = reverse_lazy('class-list')
+
+
+
+
 #
 #
-# class ClassDeleteView(DeleteView):
-#     model = Class
-#     template_name = 'admin/class_confirm_delete.html'
-#     success_url = reverse_lazy('class_list')
+class ClassDeleteView(DeleteView):
+    model = Class
+    template_name = 'class_delete.html'
+    success_url = reverse_lazy('class-list')
+
+
 #
 #
-# # 5. 管理员管理讲师的视图
-# class LecturerListView(ListView):
-#     model = Lecture
-#     template_name = 'admin/lecturer_list.html'
-#
-#
-# class LecturerCreateView(CreateView):
-#     model = Lecture
-#     form_class = LecturerForm
-#     template_name = 'admin/lecturer_form.html'
-#     success_url = reverse_lazy('lecturer_list')
-#
-#
-# class LecturerUpdateView(UpdateView):
-#     model = Lecture
-#     form_class = LecturerForm
-#     template_name = 'admin/lecturer_form.html'
-#     success_url = reverse_lazy('lecturer_list')
-#
-#
-# class LecturerDeleteView(DeleteView):
-#     model = Lecture
-#     template_name = 'admin/lecturer_confirm_delete.html'
-#     success_url = reverse_lazy('lecturer_list')
+# 5. 管理员管理讲师的视图
+class LectureListView(ListView):
+    model = Lecture
+    template_name = 'lecture_list.html'
+
+
+class LectureCreateView(CreateView):
+
+    template_name = 'lecture_create.html'  # Replace with your template
+    form_class = UserForm
+    success_url = reverse_lazy('lecture-list')  # Redirect after successful creation
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get the context
+        context = super().get_context_data(**kwargs)
+        context['lecture_form'] = LectureForm()
+        return context
+
+    def form_valid(self, form):
+        # Create User instance first
+        user = form.save(commit=False)
+        password = form.cleaned_data.get('password')
+        user.set_password(password)
+        user.save()
+
+        group, created = Group.objects.get_or_create(name='Lecture')
+        group.user_set.add(user)
+
+        # Now create the Student instance
+        lecture_form = LectureForm(self.request.POST)
+        if lecture_form.is_valid():
+            lecture = lecture_form.save(commit=False)
+            lecture.user = user  # Link the Student to the User
+            lecture.save()
+
+        return super().form_valid(form)
+
+
+class LectureUpdateView(UpdateView):
+    model = Lecture
+    form_class = LectureForm
+    template_name = 'lecturer_update.html'
+    success_url = reverse_lazy('lecture-list')
+
+
+class LectureDeleteView(DeleteView):
+    model = Lecture
+    template_name = 'lecture_delete.html'
+    success_url = reverse_lazy('lecture-list')
+
+class LectureDetailView(DetailView):
+    model = Lecture
+    template_name = 'lecture_detail.html'
+
+
+
 #
 #
 # # 6. 管理员分配/移除讲师到班级的视图
@@ -185,7 +245,9 @@ class StudentDeleteView(DeleteView):
 class StudentCreateView(CreateView):
     template_name = 'student_form.html'  # Replace with your template
     form_class = UserForm
-    success_url = reverse_lazy('home')  # Redirect after successful creation
+    success_url = reverse_lazy('student-list')  # Redirect after successful creation
+
+
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
@@ -197,9 +259,13 @@ class StudentCreateView(CreateView):
     def form_valid(self, form):
         # Create User instance first
         user = form.save(commit=False)
-
-        user.password = 'abc'  # Hash the password
+        password = form.cleaned_data.get('password')
+        user.set_password(password)
         user.save()
+
+        group, created = Group.objects.get_or_create(name='Student')
+        group.user_set.add(user)
+
 
         # Now create the Student instance
         student_form = StudentForm(self.request.POST)
@@ -273,18 +339,24 @@ class StudentUpdateView(UpdateView):
 #     return render(request, 'lecturer/email_students.html', {'students': students})
 #
 #
-# # 11. 讲师登录视图
-# def lecturer_login(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None and user.is_staff and hasattr(user, 'lecturer'):
-#             login(request, user)
-#             return redirect('lecturer_dashboard')
-#         else:
-#             messages.error(request, 'Invalid login credentials')
-#     return render(request, 'lecturer/login.html')
+# 11. 讲师登录视图
+def lecture_login(request):
+    # if request.method == 'POST':
+    #     username = request.POST.get('username')
+    #     password = request.POST.get('password')
+    #     user = authenticate(request, username=username, password=password)
+    #     if user is not None and user.is_staff and hasattr(user, 'lecturer'):
+    #         login(request, user)
+    #         return redirect('lecturer_dashboard')
+    #     else:
+    #         messages.error(request, 'Invalid login credentials')
+    # return render(request, 'lecturer/login.html')
+    if request.user.groups.filter(name='Lecture').exists():
+        lecture = request.user.lecture
+        class_list = Class.objects.filter(lecturer=lecture)
+        return render(request, 'lecture_class_list.html', {'class': class_list})
+    else:
+        return HttpResponseNotFound("You have no permission")
 #
 #
 # # 12. 讲师输入出勤数据的视图
@@ -317,9 +389,13 @@ class StudentUpdateView(UpdateView):
 #
 # # 14. 学生查看出勤情况的视图
 def view_attendance(request):
-    student = request.user.student
-    attendance = Attendance.objects.filter(student=student)
-    return render(request, 'student_attendance.html', {'attendance': attendance})
+
+    if request.user.groups.filter(name='Student').exists():
+        student = request.user.student
+        attendance = Attendance.objects.filter(student=student)
+        return render(request, 'student_attendance.html', {'attendance': attendance})
+    else:
+        return HttpResponseNotFound("You have no permission")
 #
 #
 # from django.shortcuts import render

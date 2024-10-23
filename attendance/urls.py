@@ -20,7 +20,7 @@ from django.urls import path
 from attendance import views
 from django.contrib.auth import views as auth_views
 
-from attendance.views import view_attendance
+from attendance.views import view_attendance, lecture_login
 
 urlpatterns = [
 
@@ -30,6 +30,7 @@ urlpatterns = [
     path('', views.home, name='home'),
 
     path('attendance/student', view_attendance, name='student-attendance'),
+    path('attendance/lecture/class', lecture_login, name='lecture-login'),
 
     path('student/create', views.StudentCreateView.as_view(), name='student-create'),
     path('student/', views.StudentListView.as_view(), name='student-list'),
@@ -47,7 +48,39 @@ urlpatterns = [
     path('semester/<int:pk>/delete', views.SemesterDeleteView.as_view(), name='semester-delete'),
 
 
-    path('course/create', views.CourseListView.as_view(), name='course-create'),
+    path('course/create', views.CourseCreateView.as_view(), name='course-create'),
+
+    path('course/list', views.CourseListView.as_view(), name='course-list'),
+
+    path('course/<int:pk>', views.CourseDetailView.as_view(), name='course-detail'),
+
+    path('course/<int:pk>/update', views.CourseUpdateView.as_view(), name='course-update'),
+
+    path('course/<int:pk>/delete', views.CourseDeleteView.as_view(), name='course-delete'),
+
+
+    path('class/create', views.ClassCreateView.as_view(), name='class-create'),
+
+    path('class/list', views.ClassListView.as_view(), name='class-list'),
+
+    path('class/<int:pk>', views.ClassDetailView.as_view(), name='class-detail'),
+
+    path('class/<int:pk>/update', views.ClassUpdateView.as_view(), name='class-update'),
+
+    path('class/<int:pk>/delete', views.ClassDeleteView.as_view(), name='class-delete'),
+
+    path('lecture/create', views.LectureCreateView.as_view(), name='lecture-create'),
+
+    path('lecture/list', views.LectureListView.as_view(), name='lecture-list'),
+
+    path('lecture/<int:pk>', views.LectureDetailView.as_view(), name='lecture-detail'),
+
+    path('lecture/<int:pk>/update', views.LectureUpdateView.as_view(), name='lecture-update'),
+
+    path('lecture/<int:pk>/delete', views.LectureDeleteView.as_view(), name='lecture-delete'),
+
+
+
 
 
 

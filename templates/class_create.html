@@ -1,10 +1,10 @@
 {%  extends 'base.html' %}
 
-{%  block title %} Course Create {% endblock %}
+{%  block title %} Class Create {% endblock %}
 {% block body %}
     
-  <h1>Course Create</h1>
-    <form method="post" action="{% url 'course-create' %}">
+  <h1>Class Create</h1>
+    <form method="post" action="{% url 'class-create' %}">
         {% csrf_token %}
         {{ form.as_p }}
 {#        {{ course_form.as_p }}#}

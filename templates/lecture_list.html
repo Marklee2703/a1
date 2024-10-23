@@ -1,6 +1,6 @@
 {%  extends 'base.html' %}
 
-{%  block title %} Student List {% endblock %}
+{%  block title %} Lecture List {% endblock %}
 {% block body %}
     
     {% for object in object_list %}
@@ -10,12 +10,13 @@
         
 {#        {{ object.pk }}#}
         <p>
-        <a href="http://localhost:8000/student/{{ object.pk }}">{{ object }}</a>
+        <a href="http://localhost:8000/lecture/{{ object.pk }}">{{ object }}</a>
         </p>
         
          
         
-      
+       
+    
       
         
         
@@ -27,7 +28,7 @@
     
     <p>
       
-     <a href="{% url 'student-create' %}">Create New Student</a>
+     <a href="{% url 'lecture-create' %}">Create New Lecture</a>
         
         </p>
         
@@ -35,5 +36,4 @@
     
     
 {% endblock %}
-
 

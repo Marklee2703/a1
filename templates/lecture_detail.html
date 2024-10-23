@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+Lecture Detail
+{% endblock %}
+{%  block body %}
+    <p>
+    {{ object }}
+    </p>
+    <p>
+    DOB: {{ object.DOB }}
+    </p>
+    <p>
+   user:  {{ object.user}}
+  
+    </p>
+    
+{#    <a href="http://localhost:8000/semester/{{ object.pk }}/delete">Delete</a>#}
+    
+    <a href="{% url 'lecture-delete' object.pk %}">Delete</a>
+    <a href="{% url 'lecture-update' object.pk %}">Update</a>
+    
+{#      <a href="http://localhost:8000/semester/{{ object.pk }}/update">Update</a>#}
+    
+{% endblock %}

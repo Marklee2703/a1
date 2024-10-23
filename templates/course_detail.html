@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+Course Detail
+{% endblock %}
+{%  block body %}
+    <p>
+    code: {{ object.code }}
+   Name:  {{ object.name }}
+  
+    </p>
+    
+{#    <a href="http://localhost:8000/semester/{{ object.pk }}/delete">Delete</a>#}
+    
+    <a href="{% url 'course-delete' object.pk %}">Delete</a>
+    <a href="{% url 'course-update' object.pk %}">Update</a>
+    
+{#      <a href="http://localhost:8000/semester/{{ object.pk }}/update">Update</a>#}
+    
+{% endblock %}

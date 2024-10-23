@@ -77,7 +77,7 @@
                     <a class="nav-link" href={% url 'student-attendance' %}>Student</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Lecturer</a>
+                    <a class="nav-link" href={% url 'lecture-login' %}>Lecturer</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -88,6 +88,9 @@
                         <li><a class="dropdown-item" href={% url 'semester-list' %}>Semester</a></li>
                         <li><a class="dropdown-item" href={% url 'student-list' %}>Student</a></li>
                         <li><a class="dropdown-item" href={% url 'course-list' %}>Course</a></li>
+                         <li><a class="dropdown-item" href={% url 'class-list' %}>Class</a></li>
+                        <li><a class="dropdown-item" href={% url 'lecture-list' %}>Lecture</a></li>
+                        
                         
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>

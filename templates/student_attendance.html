@@ -13,7 +13,7 @@
     {% if attendance %}
         {% for a in attendance %}
             <p>
-                {{ a.class_attended }} - {{ a.status }}
+                {{ a.class_attended }} - {{ a.date }} - {{ a.status }}
             </p>
         {% endfor %}
     {% else %}
